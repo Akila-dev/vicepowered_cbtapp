@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 
 const Header = ({ endExam }) => {
-  const [seconds, setSeconds] = useState(0);
-  const [minutes, setMinutes] = useState(10);
+  const [secondsRemaining, setSecondsRemaining] = useState(2);
+  // const [seconds, setSeconds] = useState(10);
+  // const [minutes, setMinutes] = useState(10);
   const [redTime, setRedTime] = useState(false);
 
   // setInterval(() => {
@@ -21,7 +22,17 @@ const Header = ({ endExam }) => {
   //   }
   // }, 1000);
 
-  useEffect(() => {}, [seconds, minutes]);
+  // useEffect(() => {
+  //   setInterval(() => {
+  //     // timer();
+  //     setSecondsRemaining((prev) => prev - 1);
+  //   }, 1000);
+  // }, []);
+
+  const timer = () => {
+    // console.log(secondsRemaining);
+    setSecondsRemaining((prev) => prev - 1);
+  };
 
   return (
     <div className="border-b py-4 px-1 shadow rounded-b-lg bg-white">
@@ -31,8 +42,13 @@ const Header = ({ endExam }) => {
         </div>
         <div>
           <p className={`text-2xl font-semibold ${redTime && "text-red-800"}`}>
-            {minutes < 10 ? `0${minutes}` : minutes}:
-            {seconds < 10 ? `0${seconds}` : seconds}
+            {Math.floor(secondsRemaining / 60) < 10
+              ? `0${Math.floor(secondsRemaining / 60)}`
+              : Math.floor(secondsRemaining / 60)}
+            :
+            {secondsRemaining - Math.floor(secondsRemaining / 60) * 60 < 10
+              ? `0${secondsRemaining - Math.floor(secondsRemaining / 60) * 60}`
+              : secondsRemaining - Math.floor(secondsRemaining / 60) * 60}
           </p>
         </div>
         <button
