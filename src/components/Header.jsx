@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 const Header = ({ endExam }) => {
-  const [secondsRemaining, setSecondsRemaining] = useState(2);
+  const [secondsRemaining, setSecondsRemaining] = useState(600);
   // const [seconds, setSeconds] = useState(10);
   // const [minutes, setMinutes] = useState(10);
   const [redTime, setRedTime] = useState(false);
@@ -29,10 +29,10 @@ const Header = ({ endExam }) => {
   //   }, 1000);
   // }, []);
 
-  const timer = () => {
-    // console.log(secondsRemaining);
-    setSecondsRemaining((prev) => prev - 1);
-  };
+  useEffect(() => {
+    setSecondsRemaining(600);
+    setRedTime(false);
+  }, [secondsRemaining, redTime]);
 
   return (
     <div className="border-b py-4 px-1 shadow rounded-b-lg bg-white">
