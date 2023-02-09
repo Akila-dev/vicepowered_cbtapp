@@ -16,11 +16,15 @@ const Test = () => {
   const [wronglyAnswered, setWronglyAnswered] = useState(0);
   const [unanswered, setUnanswered] = useState(0);
   const [endingExam, setEndingExam] = useState(false);
+  // const [questions, setQuestions] = useState([...ENGLISH]);
   const questions = [...ENGLISH];
 
-  // useEffect(() => {
-  //   setCurrentQuestion(0);
-  // }, []);
+  useEffect(() => {
+    ai_speak(
+      `Question ${currentQuestion + 1}. ${questions[currentQuestion].question}`
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     ai_speak(
@@ -35,7 +39,7 @@ const Test = () => {
       // setCurrentQuestion((prev) => (prev += 1));
       setTimeout(() => {
         setCurrentQuestion((prev) => (prev += 1));
-      }, 1000);
+      }, 2000);
     }
   };
   const prevQuestion = () => {
@@ -112,6 +116,7 @@ const Test = () => {
 
     if (awaitresponse) {
       speech.onend = function (e) {
+        resetTranscript();
         if (browserSupportsContinuousListening) {
           SpeechRecognition.startListening({ continuous: true });
         } else {
@@ -236,7 +241,43 @@ const Test = () => {
         endingExam && dontEndExam();
       },
     },
+    // {
+    //   command: ["go to (question) (questions) *"],
+    //   callback: (option) => {
+    //     let numwords = [
+    //       "one",
+    //       "two",
+    //       "three",
+    //       "four",
+    //       "five",
+    //       "six",
+    //       "seven",
+    //       "eight",
+    //       "nine",
+    //       "ten",
+    //     ];
+    //     let numint = 0;
+    //     if (Number(option) >= 0 && Number(option) <= 10) {
+    //       setCurrentQuestion(Number(option) - 1);
+    //     } else {
+    //       for (let i = 0; i < numwords.length; i++) {
+    //         const num = numwords[i];
+    //         if (option === num) {
+    //           numint = num;
+    //         }
+    //       }
+    //       if (numint + 1 > 0) {
+    //         setCurrentQuestion(Number(numint));
+    //       } else {
+    //         ai_speak(`I do not know question ${option}`);
+    //       }
+    //     }
+    //   },
+    // },
   ];
+
+  // const { transcript, browserSupportsContinuousListening, resetTranscript } =
+  //   useSpeechRecognition({ commands });
 
   const { browserSupportsContinuousListening, resetTranscript } =
     useSpeechRecognition({ commands });
